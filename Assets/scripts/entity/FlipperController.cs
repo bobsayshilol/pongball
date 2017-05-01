@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlipperController : MonoBehaviour 
+public class FlipperController : MonoBehaviour
 {
     public float restPosition = 0F;
     public float pressedPosition = 45F;
@@ -11,39 +11,39 @@ public class FlipperController : MonoBehaviour
     public string inputButtonName = "LeftFlipper";
     private HingeJoint paddleHingeJoint;
 
-	JointSpring spring;
+    JointSpring spring;
 
     private JointLimits limits;
- 
-    void  Awake (){
+
+    void Awake()
+    {
         GetComponent<HingeJoint>().useSpring = true;
 
-		// Callback to the activate/deactivate methods from server
-		GetComponent<ObstacleNetworking>().ActivateFromServer += ActivateFlipper;
-		GetComponent<ObstacleNetworking>().DeactivateFromServer += DeactivateFlipper;
+        // Callback to the activate/deactivate methods from server
+        GetComponent<ObstacleNetworking>().ActivateFromServer += ActivateFlipper;
+        GetComponent<ObstacleNetworking>().DeactivateFromServer += DeactivateFlipper;
 
-		spring = new JointSpring();
+        spring = new JointSpring();
     }
 
-   
-    void  Update (){
-
+    void Update()
+    {
         spring.spring = flipperStrength;
         spring.damper = flipperDamper;
 
-		if (Input.GetButtonDown(inputButtonName))
+        if (Input.GetButtonDown(inputButtonName))
         {
-			ActivateFlipper();
+            ActivateFlipper();
 
-			// Activate the flipper on all clients
-			GetComponent<ObstacleNetworking>().ActivateOnServer();
+            // Activate the flipper on all clients
+            GetComponent<ObstacleNetworking>().ActivateOnServer();
         }
-		else if (Input.GetButtonUp(inputButtonName))
+        else if (Input.GetButtonUp(inputButtonName))
         {
-			DeactivateFlipper();
+            DeactivateFlipper();
 
-			// Deactivate the flipper on all clients
-			GetComponent<ObstacleNetworking>().DeactivateOnServer();
+            // Deactivate the flipper on all clients
+            GetComponent<ObstacleNetworking>().DeactivateOnServer();
         }
 
         GetComponent<HingeJoint>().spring = spring;
@@ -54,15 +54,15 @@ public class FlipperController : MonoBehaviour
         GetComponent<HingeJoint>().limits = limits;
     }
 
-	void ActivateFlipper()
-	{
-		spring.targetPosition = pressedPosition;
-	}
+    void ActivateFlipper()
+    {
+        spring.targetPosition = pressedPosition;
+    }
 
-	void DeactivateFlipper()
-	{
-		spring.targetPosition = restPosition;
-	}
+    void DeactivateFlipper()
+    {
+        spring.targetPosition = restPosition;
+    }
 
 
 }

@@ -11,6 +11,9 @@ public class ObstacleManager : NetworkBehaviour
 
 	public ObstacleNetworking[] obstacles;
 
+    public delegate void ResetFromHostDelegate();
+    public static event ResetFromHostDelegate OnResetFromHost;
+
 	[ServerCallback]
 	void Start () 
 	{
@@ -85,6 +88,17 @@ public class ObstacleManager : NetworkBehaviour
 			obstacle.DeactivateFromServer();
 		}
 	}
+
+    public void PerfromResetFromHost()
+    {
+        bool isHost = (!NetworkManager.singleton.isNetworkActive || NetworkServer.connections.Count > 0);
+        Debug.Assert(isHost, "Trying to invoke PerfromResetFromHost on non host");
+        if (OnResetFromHost != null)
+        {
+            Debug.Log("Performing reset from host invocation");
+            OnResetFromHost();
+        }
+    }
 
 	// Find the index of the obstacle
 	public int GetObstacleIndex(ObstacleNetworking obstacle)

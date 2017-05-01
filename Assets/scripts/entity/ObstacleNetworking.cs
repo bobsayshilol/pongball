@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -18,7 +19,7 @@ public class ObstacleNetworking : MonoBehaviour
 		// Get the obstacle manager
 		if (obstacleManager == null)
 		{
-			obstacleManager = Object.FindObjectOfType<ObstacleManager>();
+			obstacleManager = UnityEngine.Object.FindObjectOfType<ObstacleManager>();
 		}
 	}
 

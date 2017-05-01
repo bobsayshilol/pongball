@@ -167,6 +167,12 @@ public class Score : NetworkBehaviour
                     // Unset game win state
                     gameWinState = false;
 
+                    ObstacleManager om = UnityEngine.Object.FindObjectOfType<ObstacleManager>();
+                    if(om != null)
+                    {
+                        om.PerfromResetFromHost();
+                    }
+
                     // Trigger a reset
                     OnTriggerReset();
                 }

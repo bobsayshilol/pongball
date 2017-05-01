@@ -19,7 +19,17 @@ public class SpinnerActivator : MonoBehaviour
         GetComponent<ObstacleNetworking>().ActivateFromServer += ActivateBoost;
         GetComponent<ObstacleNetworking>().DeactivateFromServer += DeactivateBoost;
     }
-    
+
+    private void OnEnable()
+    {
+        ObstacleManager.OnResetFromHost += DeactivateBoost;
+    }
+
+    private void OnDisable()
+    {
+        ObstacleManager.OnResetFromHost -= DeactivateBoost;
+    }
+
     void OnCollisionEnter(Collision col)
     {
         if (!NetworkManager.singleton.isNetworkActive || NetworkServer.connections.Count > 0)
